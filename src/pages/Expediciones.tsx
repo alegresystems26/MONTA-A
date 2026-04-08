@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 
 export default function Expediciones() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [difficulty, setDifficulty] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
+
+  const matchSearch = (title: string) => title.toLowerCase().includes(searchQuery.toLowerCase());
+  const matchTag = (tags: string[]) => !activeTag || tags.includes(activeTag);
+  const matchDiff = (diff: string) => !difficulty || diff === difficulty;
+  const matchDur = (dur: string) => !duration || dur === duration;
+
+  const showFitzRoy = matchSearch("Expedición Fitz Roy & Torre") && matchTag(["ALTA MONTAÑA", "MÁS POPULARES"]) && matchDiff("MODERADO") && matchDur("7 DÍAS");
+  const showAconcagua = matchSearch("Techo de América: Aconcagua 6962m") && matchTag(["ALTA MONTAÑA"]) && matchDiff("EXPERTO") && matchDur("20 DÍAS");
+  const showBariloche = matchSearch("Cruce de los Lagos") && matchTag(["MÁS POPULARES"]) && matchDiff("FÁCIL") && matchDur("4 DÍAS");
+  const showMendoza = matchSearch("Cordón del Plata") && matchTag(["ALTA MONTAÑA"]) && matchDiff("TÉCNICO") && matchDur("10 DÍAS");
 
   const openModal = (id: string) => {
     setActiveModal(id);
@@ -53,39 +67,61 @@ export default function Expediciones() {
       </header>
 
       {/* Filter Bar */}
-      <section className="sticky top-[72px] z-40 bg-background/80 backdrop-blur-md py-6 px-8 border-b border-outline-variant/10">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-on-surface-variant font-label text-xs uppercase tracking-widest">Filtrar por:</span>
+      <section className="sticky top-[60px] md:top-[72px] z-40 bg-background/95 backdrop-blur-md py-3 px-4 md:py-6 md:px-8 border-b border-outline-variant/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex flex-nowrap md:flex-wrap items-center gap-2 md:gap-4 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
+            <span className="text-on-surface-variant font-label text-xs uppercase tracking-widest hidden md:inline-block">Filtrar por:</span>
             {/* Dificultad Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-outline-variant/20 hover:border-primary/50 transition-colors">
-                <span className="text-sm">Dificultad</span>
-                <span className="material-symbols-outlined text-sm">expand_more</span>
-              </button>
-            </div>
+            <select 
+              className="bg-surface-container px-4 py-2 rounded-full border border-outline-variant/20 text-sm outline-none focus:border-primary/50 appearance-none cursor-pointer"
+              value={difficulty || ''}
+              onChange={(e) => setDifficulty(e.target.value || null)}
+            >
+              <option value="">Dificultad</option>
+              <option value="FÁCIL">Fácil</option>
+              <option value="MODERADO">Moderado</option>
+              <option value="TÉCNICO">Técnico</option>
+              <option value="EXPERTO">Experto</option>
+            </select>
             {/* Duración Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-outline-variant/20 hover:border-primary/50 transition-colors">
-                <span className="text-sm">Duración</span>
-                <span className="material-symbols-outlined text-sm">schedule</span>
-              </button>
-            </div>
-            <div className="h-6 w-px bg-outline-variant/30 mx-2"></div>
+            <select 
+              className="bg-surface-container px-4 py-2 rounded-full border border-outline-variant/20 text-sm outline-none focus:border-primary/50 appearance-none cursor-pointer"
+              value={duration || ''}
+              onChange={(e) => setDuration(e.target.value || null)}
+            >
+              <option value="">Duración</option>
+              <option value="4 DÍAS">4 Días</option>
+              <option value="7 DÍAS">7 Días</option>
+              <option value="10 DÍAS">10 Días</option>
+              <option value="20 DÍAS">20 Días</option>
+            </select>
+            <div className="h-6 w-px bg-outline-variant/30 mx-1 hidden md:block"></div>
             {/* Tags Fast Filter */}
             <div className="flex gap-2">
-              <span className="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-bold font-label tracking-wide flex items-center gap-1">
+              <button 
+                onClick={() => setActiveTag(activeTag === 'MÁS POPULARES' ? null : 'MÁS POPULARES')}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold font-label tracking-wide flex items-center gap-1 whitespace-nowrap transition-colors ${activeTag === 'MÁS POPULARES' ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-variant text-on-surface-variant hover:bg-surface-bright'}`}
+              >
                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>local_fire_department</span>
                 MÁS POPULARES
-              </span>
-              <span className="bg-surface-variant text-on-surface-variant px-4 py-1.5 rounded-full text-xs font-bold font-label tracking-wide cursor-pointer hover:bg-surface-bright transition-colors">
+              </button>
+              <button 
+                onClick={() => setActiveTag(activeTag === 'ALTA MONTAÑA' ? null : 'ALTA MONTAÑA')}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold font-label tracking-wide whitespace-nowrap transition-colors ${activeTag === 'ALTA MONTAÑA' ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-variant text-on-surface-variant hover:bg-surface-bright'}`}
+              >
                 ALTA MONTAÑA
-              </span>
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/20 px-4 py-2 rounded-full w-full md:w-64">
+          <div className="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/20 px-4 py-2 rounded-full w-full md:w-64 shrink-0">
             <span className="material-symbols-outlined text-outline text-lg">search</span>
-            <input className="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline/50 outline-none" placeholder="Buscar destino..." type="text"/>
+            <input 
+              className="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline/50 outline-none" 
+              placeholder="Buscar destino..." 
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
       </section>
@@ -94,87 +130,110 @@ export default function Expediciones() {
       <section className="max-w-7xl mx-auto px-8 py-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Card 1: El Chaltén (Large) */}
-          <div className="md:col-span-8 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer" onClick={() => openModal('modal-fitzroy')}>
-            <div className="h-[500px] overflow-hidden relative">
-              <img referrerPolicy="no-referrer" alt="El Chaltén Trekking" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="rugged mountain landscape with snow-capped granite peaks under a golden hour sun with long shadows and alpine flora" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAemeHSZBh1w_HzfttSkIlpxNHYUKGkzVhgnwHE-xR-rmPlAI0Akq-opk7BvgRqe44FjItVKjxYfeAxlTA_0UZYlRLRzW194Pm8mpbTy9rs-BTxfC6C6xJKXeXZ-No1tvwAUp8r5QIQn2fksOJK4WtR_BuhFJkDw0327fqBx6hGBDf3BCIS7yS7F42Zd-z2DibYRyOpvbqrfVeQM6wHCl3l7kyJpBEAtvTDk9ZP9mdCNHetOe_L8VW4KykPa8ZYHjebbI_QoN1GTTs"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-              <div className="absolute top-6 left-6 flex gap-2">
-                <span className="glass-panel text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">7 DÍAS</span>
-                <span className="bg-primary text-on-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">MODERADO</span>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 p-8 w-full">
-              <div className="flex justify-between items-end">
-                <div>
-                  <h3 className="text-4xl font-headline font-bold text-white mb-2">Expedición Fitz Roy &amp; Torre</h3>
-                  <div className="flex items-center gap-6 text-on-surface-variant text-sm">
-                    <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">calendar_today</span> 15 Nov - 22 Nov</span>
-                    <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">group</span> 4/12 Cupos</span>
-                    <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">person</span> Guía: F. Moreno</span>
-                  </div>
+          {showFitzRoy && (
+            <div className="md:col-span-8 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer" onClick={() => openModal('modal-fitzroy')}>
+              <div className="h-[500px] overflow-hidden relative">
+                <img referrerPolicy="no-referrer" alt="El Chaltén Trekking" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="rugged mountain landscape with snow-capped granite peaks under a golden hour sun with long shadows and alpine flora" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAemeHSZBh1w_HzfttSkIlpxNHYUKGkzVhgnwHE-xR-rmPlAI0Akq-opk7BvgRqe44FjItVKjxYfeAxlTA_0UZYlRLRzW194Pm8mpbTy9rs-BTxfC6C6xJKXeXZ-No1tvwAUp8r5QIQn2fksOJK4WtR_BuhFJkDw0327fqBx6hGBDf3BCIS7yS7F42Zd-z2DibYRyOpvbqrfVeQM6wHCl3l7kyJpBEAtvTDk9ZP9mdCNHetOe_L8VW4KykPa8ZYHjebbI_QoN1GTTs"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+                <div className="absolute top-6 left-6 flex gap-2">
+                  <span className="glass-panel text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">7 DÍAS</span>
+                  <span className="bg-primary text-on-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">MODERADO</span>
                 </div>
-                <button className="bg-white text-background h-12 w-12 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
-                  <span className="material-symbols-outlined">arrow_forward</span>
-                </button>
+              </div>
+              <div className="absolute bottom-0 left-0 p-8 w-full">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <h3 className="text-4xl font-headline font-bold text-white mb-2">Expedición Fitz Roy &amp; Torre</h3>
+                    <div className="flex items-center gap-6 text-on-surface-variant text-sm">
+                      <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">calendar_today</span> 15 Nov - 22 Nov</span>
+                      <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">group</span> 4/12 Cupos</span>
+                      <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-lg text-primary">person</span> Guía: F. Moreno</span>
+                    </div>
+                  </div>
+                  <button className="bg-white text-background h-12 w-12 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Card 2: Aconcagua (Side vertical) */}
-          <div className="md:col-span-4 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer" onClick={() => openModal('modal-aconcagua')}>
-            <div className="h-full min-h-[400px] overflow-hidden relative">
-              <img referrerPolicy="no-referrer" alt="Aconcagua Summit" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="stunning high altitude view of Aconcagua summit with glaciers and blue sky from a neighboring peak" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-_lNGNHxVsBkb13hYZ7PzKyjyl3qWyshTJRBjdDHB6xsBpZuV0EBTnfivKvubjQlNr6MubtlLsaqSA4GwhABcqrt3TKs3eajSKWdWNX3lG46m7ICMalgJCr8GP_0v9q2_z28c8Gh5Jme0A8JJRP8dB0X0zuBluHaidP34kOrYWZ6RnGAqpWfCImZC9i8Pon8wKNp6pTI3b62rbV9_gZBDhQVR0toTapNE2n28bzouX5eNUFU_VOXpnNP7fwtLBCCXW5wycSehqzE"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent"></div>
-              <div className="absolute top-6 left-6">
-                <span className="bg-error-container text-on-error-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">EXPERTO</span>
-              </div>
-              <div className="absolute bottom-0 left-0 p-8">
-                <h3 className="text-2xl font-headline font-bold text-white mb-4">Techo de América: Aconcagua 6962m</h3>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-on-surface-variant text-xs">
-                    <span className="material-symbols-outlined text-primary text-lg">calendar_month</span>
-                    04 Ene - 24 Ene (20 Días)
-                  </div>
-                  <div className="flex items-center gap-2 text-on-surface-variant text-xs">
-                    <span className="material-symbols-outlined text-primary text-lg">hotel_class</span>
-                    Logística Full Incluida
-                  </div>
+          {showAconcagua && (
+            <div className="md:col-span-4 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer" onClick={() => openModal('modal-aconcagua')}>
+              <div className="h-full min-h-[400px] overflow-hidden relative">
+                <img referrerPolicy="no-referrer" alt="Aconcagua Summit" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="stunning high altitude view of Aconcagua summit with glaciers and blue sky from a neighboring peak" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-_lNGNHxVsBkb13hYZ7PzKyjyl3qWyshTJRBjdDHB6xsBpZuV0EBTnfivKvubjQlNr6MubtlLsaqSA4GwhABcqrt3TKs3eajSKWdWNX3lG46m7ICMalgJCr8GP_0v9q2_z28c8Gh5Jme0A8JJRP8dB0X0zuBluHaidP34kOrYWZ6RnGAqpWfCImZC9i8Pon8wKNp6pTI3b62rbV9_gZBDhQVR0toTapNE2n28bzouX5eNUFU_VOXpnNP7fwtLBCCXW5wycSehqzE"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent"></div>
+                <div className="absolute top-6 left-6">
+                  <span className="bg-error-container text-on-error-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">EXPERTO</span>
                 </div>
-                <span className="text-2xl font-headline font-bold text-primary">$2.400 <span className="text-xs text-on-surface-variant font-normal">USD</span></span>
+                <div className="absolute bottom-0 left-0 p-8">
+                  <h3 className="text-2xl font-headline font-bold text-white mb-4">Techo de América: Aconcagua 6962m</h3>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-2 text-on-surface-variant text-xs">
+                      <span className="material-symbols-outlined text-primary text-lg">calendar_month</span>
+                      04 Ene - 24 Ene (20 Días)
+                    </div>
+                    <div className="flex items-center gap-2 text-on-surface-variant text-xs">
+                      <span className="material-symbols-outlined text-primary text-lg">hotel_class</span>
+                      Logística Full Incluida
+                    </div>
+                  </div>
+                  <span className="text-2xl font-headline font-bold text-primary">$2.400 <span className="text-xs text-on-surface-variant font-normal">USD</span></span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Card 3: Bariloche (Square-ish) */}
-          <div className="md:col-span-6 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer">
-            <div className="h-[400px] overflow-hidden relative">
-              <img referrerPolicy="no-referrer" alt="Bariloche Lakes" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="crystal clear alpine lake in Bariloche reflecting mountains and dense evergreen forest under bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_wpf_pAIDBifgTwyceC71WNGO5CN26WhHQtUoRq-MBw0RxnAnaTOKHzHy9bRUC8CRR0XRN88Dxij0f3VfdkUwGP7z-CE2QbO0GHa_8IUlFL64Jjuez4TpclLLktGzw7gweF2et4MbU0Q3hEWRHZ5OAi8Lh3r8CWNNMmbBAPwepsCsJJO5c1VPoBOmQL1UChPhaQ_p83O5PaC9jDgN2XSRBD_ReD5uA95TmnDFON6mK1wyylVV2r_taU-BzqTlOZbG2fpcOPPPYtY"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-8">
-                <span className="text-xs font-label text-primary font-bold tracking-widest uppercase mb-1 block">ESCAPADA</span>
-                <h3 className="text-3xl font-headline font-bold text-white mb-2">Cruce de los Lagos</h3>
-                <p className="text-on-surface-variant text-sm mb-4 line-clamp-2 max-w-sm">Explora el Nahuel Huapi desde perspectivas únicas en una travesía de refugio en refugio.</p>
-                <div className="flex gap-4">
-                  <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">schedule</span> 4 Días</span>
-                  <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">signal_cellular_alt</span> Fácil</span>
+          {showBariloche && (
+            <div className="md:col-span-6 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer">
+              <div className="h-[400px] overflow-hidden relative">
+                <img referrerPolicy="no-referrer" alt="Bariloche Lakes" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="crystal clear alpine lake in Bariloche reflecting mountains and dense evergreen forest under bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_wpf_pAIDBifgTwyceC71WNGO5CN26WhHQtUoRq-MBw0RxnAnaTOKHzHy9bRUC8CRR0XRN88Dxij0f3VfdkUwGP7z-CE2QbO0GHa_8IUlFL64Jjuez4TpclLLktGzw7gweF2et4MbU0Q3hEWRHZ5OAi8Lh3r8CWNNMmbBAPwepsCsJJO5c1VPoBOmQL1UChPhaQ_p83O5PaC9jDgN2XSRBD_ReD5uA95TmnDFON6mK1wyylVV2r_taU-BzqTlOZbG2fpcOPPPYtY"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-8">
+                  <span className="text-xs font-label text-primary font-bold tracking-widest uppercase mb-1 block">ESCAPADA</span>
+                  <h3 className="text-3xl font-headline font-bold text-white mb-2">Cruce de los Lagos</h3>
+                  <p className="text-on-surface-variant text-sm mb-4 line-clamp-2 max-w-sm">Explora el Nahuel Huapi desde perspectivas únicas en una travesía de refugio en refugio.</p>
+                  <div className="flex gap-4">
+                    <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">schedule</span> 4 Días</span>
+                    <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">signal_cellular_alt</span> Fácil</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Card 4: Mendoza (Square-ish) */}
-          <div className="md:col-span-6 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer">
-            <div className="h-[400px] overflow-hidden relative">
-              <img referrerPolicy="no-referrer" alt="Mendoza Mountains" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="vineyards at the foot of the snow-capped Andes mountains in Mendoza with clear blue sky and warm afternoon sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASdNyH7Gpn3ZLhBP46pcJYRyxEjBIRpS6rmWQr1CVDY_OcBoH6odH-KKLCKmWiUYwns_Q_kZYfzB9NZosivZKNDdG0Hgv5HGcEG1KFYZbI1c8R2s3ZTcD8y64_sJonaTPFCzlt1B_07uisX6U3t7loGceniu3ARoilMTDN01TuEES71qAH0JCj3EZ61_G27V8m1N5KIFJn8KmpaTX8nwZ_o7oBJjYd1oFM91Xbhb9-UUOL54kjwvFfSyAgMb9HoKqw0vTOWIl_37Q"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-8">
-                <span className="text-xs font-label text-primary font-bold tracking-widest uppercase mb-1 block">ALTA MONTAÑA</span>
-                <h3 className="text-3xl font-headline font-bold text-white mb-2">Cordón del Plata</h3>
-                <p className="text-on-surface-variant text-sm mb-4 line-clamp-2 max-w-sm">La mejor escuela de altura en Mendoza. Ascenso al Cerro El Plata 5960m.</p>
-                <div className="flex gap-4">
-                  <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">schedule</span> 10 Días</span>
-                  <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">signal_cellular_alt</span> Técnico</span>
+          {showMendoza && (
+            <div className="md:col-span-6 group relative rounded-xl overflow-hidden bg-surface-container-high transition-transform duration-500 hover:scale-[1.01] cursor-pointer">
+              <div className="h-[400px] overflow-hidden relative">
+                <img referrerPolicy="no-referrer" alt="Mendoza Mountains" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="vineyards at the foot of the snow-capped Andes mountains in Mendoza with clear blue sky and warm afternoon sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASdNyH7Gpn3ZLhBP46pcJYRyxEjBIRpS6rmWQr1CVDY_OcBoH6odH-KKLCKmWiUYwns_Q_kZYfzB9NZosivZKNDdG0Hgv5HGcEG1KFYZbI1c8R2s3ZTcD8y64_sJonaTPFCzlt1B_07uisX6U3t7loGceniu3ARoilMTDN01TuEES71qAH0JCj3EZ61_G27V8m1N5KIFJn8KmpaTX8nwZ_o7oBJjYd1oFM91Xbhb9-UUOL54kjwvFfSyAgMb9HoKqw0vTOWIl_37Q"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-8">
+                  <span className="text-xs font-label text-primary font-bold tracking-widest uppercase mb-1 block">ALTA MONTAÑA</span>
+                  <h3 className="text-3xl font-headline font-bold text-white mb-2">Cordón del Plata</h3>
+                  <p className="text-on-surface-variant text-sm mb-4 line-clamp-2 max-w-sm">La mejor escuela de altura en Mendoza. Ascenso al Cerro El Plata 5960m.</p>
+                  <div className="flex gap-4">
+                    <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">schedule</span> 10 Días</span>
+                    <span className="flex items-center gap-1 text-xs text-zinc-300"><span className="material-symbols-outlined text-lg text-primary">signal_cellular_alt</span> Técnico</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+          
+          {/* Empty State */}
+          {!showFitzRoy && !showAconcagua && !showBariloche && !showMendoza && (
+            <div className="col-span-1 md:col-span-12 py-20 text-center">
+              <span className="material-symbols-outlined text-6xl text-outline-variant/50 mb-4">landscape</span>
+              <h3 className="text-2xl font-headline font-bold text-white mb-2">No se encontraron expediciones</h3>
+              <p className="text-on-surface-variant">Probá ajustando los filtros o la búsqueda.</p>
+              <button 
+                onClick={() => { setSearchQuery(''); setActiveTag(null); setDifficulty(null); setDuration(null); }}
+                className="mt-6 text-primary font-bold hover:underline"
+              >
+                Limpiar filtros
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
