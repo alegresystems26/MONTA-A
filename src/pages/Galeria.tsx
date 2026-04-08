@@ -8,11 +8,15 @@ export default function Galeria() {
     setActiveImage(img);
     setLightboxOpen(true);
     document.body.style.overflow = 'hidden';
+    window.history.pushState({ lightbox: true }, '', '#lightbox');
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
     document.body.style.overflow = '';
+    if (window.history.state?.lightbox) {
+      window.history.back();
+    }
   };
 
   useEffect(() => {
@@ -24,6 +28,17 @@ export default function Galeria() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      if (lightboxOpen && !e.state?.lightbox) {
+        setLightboxOpen(false);
+        document.body.style.overflow = '';
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [lightboxOpen]);
 
   return (
     <main className="relative z-20 bg-surface pt-20 pb-24 px-8">

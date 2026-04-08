@@ -6,11 +6,15 @@ export default function Expediciones() {
   const openModal = (id: string) => {
     setActiveModal(id);
     document.body.classList.add('modal-open');
+    window.history.pushState({ modal: id }, '', `#${id}`);
   };
 
   const closeModal = () => {
     setActiveModal(null);
     document.body.classList.remove('modal-open');
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
   };
 
   useEffect(() => {
@@ -23,10 +27,21 @@ export default function Expediciones() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      if (activeModal && !e.state?.modal) {
+        setActiveModal(null);
+        document.body.classList.remove('modal-open');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [activeModal]);
+
   return (
     <main className="pt-20">
       {/* Hero Section */}
-      <header className="relative h-[716px] w-full flex items-end overflow-hidden">
+      <header className="relative min-h-[500px] md:h-[716px] w-full flex items-end overflow-hidden">
         <img referrerPolicy="no-referrer" alt="El Chaltén Hero" className="absolute inset-0 w-full h-full object-cover" data-alt="panoramic view of Mt Fitz Roy in El Chaltén with dramatic peaks under a soft blue morning sky and morning mist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv3WVfVLJ9dX6XpN1A-EFCEalLm5sbQjlOXyUvkVTja_fsSbrpucillGHFeSOqvTwpdEB3Cq5aEvMpdGG2wm8jvdQSzMO5c9j6TpZaG-MY8LVufb5l_c8L6qOmj4RCBS_pLosPBsUzg9C-6gXqCUFkpE3SGKT90HzVYNa3CeAdOG8lXZU1qeGzrdKcZvCB1FDWw0i1qDSqqsp_9yKP-NbbMoz5ovbMw2w9iILwzLLLEuCIY1cNAK_mILnS8sOYITqToRinmT6ygOc"/>
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
         <div className="relative w-full max-w-7xl mx-auto px-8 pb-16">

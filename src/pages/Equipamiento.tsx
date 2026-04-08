@@ -6,11 +6,15 @@ export default function Equipamiento() {
   const openModal = (id: string) => {
     setActiveModal(id);
     document.body.classList.add('modal-open');
+    window.history.pushState({ modal: id }, '', `#${id}`);
   };
 
   const closeModal = () => {
     setActiveModal(null);
     document.body.classList.remove('modal-open');
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
   };
 
   useEffect(() => {
@@ -23,10 +27,21 @@ export default function Equipamiento() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      if (activeModal && !e.state?.modal) {
+        setActiveModal(null);
+        document.body.classList.remove('modal-open');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [activeModal]);
+
   return (
     <main className="pt-24">
       {/* Hero Section */}
-      <section className="relative h-[716px] flex items-center px-8 md:px-20 overflow-hidden">
+      <section className="relative min-h-[500px] md:h-[716px] flex items-center px-8 md:px-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img className="w-full h-full object-cover opacity-60" data-alt="dramatic wide shot of professional mountain climbing gear resting on a rock with snow-capped peaks in the background at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD60vmJBfDfpy2HNfdyRGHDGteX01s-HBnFrejOovgALj-_AeWIWbcYM7YUbJNTcPT_ZWLrO_rOVvsnhfEt9KALw6I1-iQg8Kx_seNHbkYrjQdj2dcCP6-eXAgltTcPf7Sr_wapCBEDb24XI4OrCYJHss4jDOJ--m1nydymXGB2qDh_MlmPXEAevDV0NdRfyNkPZ-PSpks5DtzMEEFnguXE2kBOKspV_2q3QDpbvldnk-e-fXH-m9OlTUv9zxjChABiQMPG2PyKpw" alt="Hero" />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent"></div>

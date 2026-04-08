@@ -2,7 +2,7 @@ export default function Cursos() {
   return (
     <main className="pt-24 pb-20">
       {/* Hero Section */}
-      <section className="relative h-[614px] flex items-center px-8 mb-24 overflow-hidden">
+      <section className="relative min-h-[500px] md:h-[614px] flex items-center px-8 mb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img referrerPolicy="no-referrer" className="w-full h-full object-cover opacity-60" data-alt="expansive majestic snow-capped mountain range at dawn with misty valleys and soft purple and blue light gradients" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxNaf3bNGQe6jLGPCGzCQg7dFGCEdJaoii4kDpC8BoFbk8Hdx_PxfJSpHVGdMZrT5xQ_ZM-HEqxz-vf2R7Bne54AD-tPQINsWUa0Tg20WndTu0OSYrPkyg1Uphz71wiuDm526W3obzxZ0mAp9fZK6SZb8QJWI0YRooID4zWCUUZvjrH7gemz8Y7-Fl3BWftCwLUulGASYSESRFOwd1DcYLj-275zohKchWnhPIvcisTRtWI1trUfcc1HKVEjViK0KjCoWerOGKYeU" alt="Hero" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>

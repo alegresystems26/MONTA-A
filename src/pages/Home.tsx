@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <main className="pt-20">
       {/* Hero Section */}
-      <section className="relative min-h-[1024px] flex items-center px-8 overflow-hidden">
+      <section className="relative min-h-[100vh] md:min-h-[1024px] flex items-center px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img referrerPolicy="no-referrer" className="w-full h-full object-cover opacity-60" data-alt="cinematic wide angle shot of the majestic Andes mountains peaks at dawn with dramatic blue and orange lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKkBsqT-H2-WwNHW7L2SA68GZBv5eIaTEVYYG3c-UXf4P_MBvzDYBLuk6JkvqAwsGk378JTgQLMCTN89lDI4GLilDz9w91BWicJ8mLrQajWsU9SQXsrar-F26ZWHoorikSnC8ImyfZy1mrvjZ8Prs24UiJXLgb-s85V-UsBcaANTnjv6JFN2U8xbQXKwn1GwBKbPGtUM_JRK9EiBuzE7PA-KMgoVqR2AdmdNtPux7KCg_c37mo9LTtHlbEFq-mGRNRlBCwb3pdo5I" alt="Hero" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
