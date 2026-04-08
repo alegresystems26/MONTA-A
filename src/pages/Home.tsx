@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Home() {
   return (
     <main className="pt-20">
@@ -37,14 +39,14 @@ export default function Home() {
             <h2 className="font-headline text-4xl font-bold tracking-tight mb-4">RECURSOS TÉCNICOS</h2>
             <p className="text-on-surface-variant max-w-md">Todo lo necesario para tu próxima salida, desde alquiler de equipo hasta formación profesional.</p>
           </div>
-          <a className="text-primary font-bold flex items-center gap-2 group" href="#">
+          <Link className="text-primary font-bold flex items-center gap-2 group" to="/equipamiento">
             Ver todos los recursos 
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </a>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
           {/* Equipamiento Card */}
-          <div className="md:col-span-2 md:row-span-2 bg-surface-container rounded-xl overflow-hidden relative group cursor-pointer min-h-[300px] md:min-h-0">
+          <Link to="/equipamiento" className="md:col-span-2 md:row-span-2 bg-surface-container rounded-xl overflow-hidden relative group cursor-pointer min-h-[300px] md:min-h-0 block">
             <img referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700" data-alt="high-end mountain climbing gear laid out on a dark slate background including ropes carabiners and ice axes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2jSlkcRZSvRQpg_uRaLq3hWBL4VcA1cy1jdySyRVQmWUodTGOMKY7qnJ4OKPyp0sIMMBJMP6rC38tdkT96VPkk0Wr_HIFDHdmNNO0ynaSo5QJ7aCN2A5VQSCgTxMXDepL9NVBNPOXiVMlnZ4O2ptsfGQ54an4C7wK7lkofjCUr7dx1DwPdKVjSqNeViZObgMOr1E6pgOR0DfheUWFD0sRvSp9iCBNY36OBRduteuN8VeavK1GvCjdSLHjqrLJQqOxhwPOXGpho-8" alt="Equipamiento" />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-highest via-transparent to-transparent"></div>
             <div className="absolute bottom-0 left-0 p-8">
@@ -52,9 +54,9 @@ export default function Home() {
               <h3 className="font-headline text-2xl font-bold mb-2">Equipamiento Pro</h3>
               <p className="text-on-surface-variant text-sm">Reseñas y guías de compra de las mejores marcas para el clima patagónico.</p>
             </div>
-          </div>
+          </Link>
           {/* Cursos Card */}
-          <div className="md:col-span-2 bg-surface-container-high rounded-xl overflow-hidden relative group cursor-pointer min-h-[250px] md:min-h-0">
+          <Link to="/cursos" className="md:col-span-2 bg-surface-container-high rounded-xl overflow-hidden relative group cursor-pointer min-h-[250px] md:min-h-0 block">
             <img referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" data-alt="mountain climbing instructor showing students how to tie knots in a snowy alpine environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1omeBNbMGx0nCKC4oEOv55Z6tp5XyrFFquo3wlYyAyfYATsWRRlk6JV5eaFP0jUTb70oYVEvKXmqLsa-4m_2qo9LbUv0DBz0_Z-3MOoN3u5wjpLvOOQXnlEG4g5iXboJYs5gS4t7mr1WbCHNBXvfHXIZUtY-eZ5AIsqIWQRm-4ilf9JzMuqjV9Q6qEKP-3yBAmkNLSLhG9yN_Vb2wERowRE5XM1BvnUYpuHTKDZoFpw3cRhiLXBexKfEgy2QszJPiWjJWj8UIHs0" alt="Cursos" />
             <div className="absolute inset-0 bg-gradient-to-r from-surface-container-high to-transparent"></div>
             <div className="absolute inset-0 flex items-center p-8">
@@ -63,23 +65,23 @@ export default function Home() {
                 <p className="text-on-surface-variant text-sm">WFR, Orientación y Escalada en Hielo con certificación nacional.</p>
               </div>
             </div>
-          </div>
+          </Link>
           {/* Alquileres Card */}
-          <div className="bg-surface-container-low rounded-xl p-8 flex flex-col justify-between group hover:bg-surface-bright transition-colors cursor-pointer">
+          <Link to="/equipamiento" className="bg-surface-container-low rounded-xl p-8 flex flex-col justify-between group hover:bg-surface-bright transition-colors cursor-pointer block">
             <span className="material-symbols-outlined text-secondary text-3xl">backpack</span>
             <div>
               <h3 className="font-headline text-lg font-bold mb-1">Alquileres</h3>
               <p className="text-on-surface-variant text-xs">Puntos de entrega en Bariloche, El Chaltén y Mendoza.</p>
             </div>
-          </div>
+          </Link>
           {/* Comunidad Card */}
-          <div className="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-between group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/10">
+          <Link to="/galeria" className="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-between group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/10 block">
             <span className="material-symbols-outlined text-tertiary text-3xl">photo_camera</span>
             <div>
               <h3 className="font-headline text-lg font-bold mb-1">Galería de la Cumbre</h3>
               <p className="text-on-surface-variant text-xs">Explora expediciones a través de fotos y videos compartidos por nuestra comunidad.</p>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 

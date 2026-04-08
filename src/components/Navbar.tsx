@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl bg-zinc-950/60 flex justify-between items-center px-4 md:px-8 py-4 max-w-full">
+      <nav className="fixed top-0 w-full z-[60] bg-transparent backdrop-blur-xl bg-zinc-950/60 flex justify-between items-center px-4 md:px-8 py-4 max-w-full">
         <Link to="/" className="text-2xl font-bold tracking-tighter text-zinc-50 font-headline uppercase">MONTAÑA AR</Link>
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => {
@@ -58,7 +58,7 @@ export default function Navbar() {
           <button className="hidden md:block bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-xl font-headline text-sm uppercase tracking-wider font-bold transition-all hover:scale-95 active:scale-90 shadow-lg shadow-primary/10">
             Unite a la Cumbre
           </button>
-          <button className="md:hidden text-zinc-50 z-50" onClick={toggleMobileMenu}>
+          <button className="md:hidden text-zinc-50 z-[60]" onClick={toggleMobileMenu}>
             <span className="material-symbols-outlined text-3xl">{mobileMenuOpen ? 'close' : 'menu'}</span>
           </button>
         </div>
@@ -66,7 +66,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-zinc-950/95 backdrop-blur-2xl flex flex-col items-center justify-center space-y-8 pt-20">
+        <div className="fixed inset-0 z-50 bg-zinc-950/95 backdrop-blur-2xl flex flex-col items-center justify-center space-y-8 pt-20">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
