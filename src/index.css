@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-on-primary: #00324a;
+  --color-on-tertiary-container: #1a0072;
+  --color-surface-container-highest: #23262a;
+  --color-surface-container: #171a1d;
+  --color-on-primary-fixed: #00121e;
+  --color-secondary-fixed: #ffc5a8;
+  --color-primary-fixed: #34b5fa;
+  --color-error-container: #9f0519;
+  --color-on-error-container: #ffa8a3;
+  --color-on-background: #f9f9fd;
+  --color-background: #0c0e11;
+  --color-on-primary-container: #002639;
+  --color-on-secondary-fixed-variant: #883900;
+  --color-surface-container-lowest: #000000;
+  --color-surface-bright: #292c31;
+  --color-on-secondary: #3b1500;
+  --color-inverse-surface: #f9f9fd;
+  --color-surface-tint: #39b8fd;
+  --color-primary: #39b8fd;
+  --color-tertiary-fixed-dim: #a196ff;
+  --color-primary-container: #1faaef;
+  --color-surface-container-high: #1d2024;
+  --color-surface-container-low: #111417;
+  --color-secondary-container: #9d4300;
+  --color-error: #ff716c;
+  --color-outline-variant: #46484b;
+  --color-on-tertiary: #271284;
+  --color-secondary-dim: #fd761a;
+  --color-on-tertiary-fixed: #13005b;
+  --color-primary-dim: #17a8ec;
+  --color-on-error: #490006;
+  --color-outline: #747579;
+  --color-on-secondary-fixed: #5b2400;
+  --color-on-surface-variant: #aaabaf;
+  --color-on-tertiary-fixed-variant: #352591;
+  --color-on-secondary-container: #fff6f3;
+  --color-primary-fixed-dim: #17a8ec;
+  --color-tertiary-container: #9b90fe;
+  --color-surface-dim: #0c0e11;
+  --color-surface-variant: #23262a;
+  --color-tertiary-dim: #9b90fe;
+  --color-secondary-fixed-dim: #ffb28a;
+  --color-inverse-primary: #006591;
+  --color-tertiary-fixed: #afa6ff;
+  --color-on-primary-fixed-variant: #003954;
+  --color-error-dim: #d7383b;
+  --color-surface: #0c0e11;
+  --color-on-surface: #f9f9fd;
+  --color-secondary: #fd761a;
+  --color-tertiary: #a9a0ff;
+  --color-inverse-on-surface: #535559;
+
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Manrope", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-body;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.glass-panel {
+  background: rgba(23, 26, 29, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.modal-glass {
+  background: rgba(12, 14, 17, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(70, 72, 75, 0.2);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 200px;
+  gap: 1.5rem;
+}
+
+.masonry-item-tall { grid-row: span 3; }
+.masonry-item-wide { grid-column: span 2; }
+.masonry-item-square { grid-row: span 2; }

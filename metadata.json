@@ -1,0 +1,5 @@
+{
+  "name": "Google Stitch Web App",
+  "description": "A fully functional web page based on a Google Stitch design, using Tailwind CSS, glassmorphism, and masonry grid.",
+  "requestFramePermissions": []
+}
